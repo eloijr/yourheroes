@@ -1,0 +1,26 @@
+13/01
+-Problema ao carregar imagem maior no fragment de detalhe - RESOLVIDO - podia ter trabalhado com FrameLayout e Progress. Havia esquecido de setar a tag.
+-Refatoração total das rotinas de carregamento e parser json para a classe PersonClient
+-Classe ActionTask apresenta um spinner enquanto carrega lista
+-Checagem na mudança de orientação e ao clicar na tecla HOME
+-Erro no parser json com thumbnail nulo
+-Retirado o menu refresk
+-Editaction GO para o edittext de pesquisa
+-Mesmo rodapé para o fragment principal e detalhe
+-Centralização da imagem no fragment detalhe
+
+14-01
+-No celular do eduardo: A mensagem de copyright da marvel ficou grande-OK
+-No celular do eduardo: O tamanho da imagem no fragment de detalhe não permite o rolamento da descrição. Resultado: colocar a imagem tb no scroll-OK
+-Usar alguma imagen 'IMAGE NOT AVAILABLE' da própria API para o caso de não carregar imagem do personagem.-OK
+-Testar no tablet a apresentação da lista e dos detalhes. Verificar o item selecionado que deve estar destacado-OK
+
+TO-DO:
+-Hiper link para o site Marvel a partir do texto de copyright
+-Colocar link para os wiki da marvel para mais detalhes sobre o personagem no fragment detail.
+
+-Testar em tablets para ver a necessidade de gravar a url de imagens maiores e apresentá-las apenas em tablets.
+-O que fazer com 'Settings'?
+-Qdo se clica na tecla home e demora alguns instantes para voltar para o app os dados são perdidos
+
+

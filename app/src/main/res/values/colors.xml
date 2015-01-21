@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="actionbar">#efce0b</color>
+    <color name="transparent_white">#00000000</color>
+    <color name="background_main">#f0141e</color>
+    <color name="text_white">#ffffff</color>
+    <color name="edit_text_search">#ff555555</color>
+    <color name="background_thumbnail">#00efefef</color>
+    <color name="border_spinner">#f0f7fe</color>
+    <color name="item_selector">#ffff99</color>
+    <color name="color_link">#23238e</color>
+</resources>

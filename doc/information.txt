@@ -1,0 +1,36 @@
+Traditionally offset works as a pointer for where you want to start your list of results (I'm going off the top of my head here -- I haven't been in the API for a bits).
+
+
+
+So one way to look at it:
+
+Offset: 0, Count: 50 --> will give you 1-50 of the result set
+
+Offset: 57, Count: 50 --> will give you 58-108 of the result set
+
+
+
+With large sampling of data, the server rarely responds back with all possible results (this is a good thing because a full result set can slow down the performance significantly, just trying to download all the content).  Offset in conjunction with other parameters allows you more control on what data you get back.
+
+
+
+Another way to think of it:
+
+Page 1 == Offset: 0, Count: 50
+
+Page 2 == Offset: 50, Count: 50
+
+Page 3 == Offset: 100, Count: 50
+
+Page 4 == Offset: 150, Count: 50
+
+And so on...
+
+////
+At the bottom of all other screens is "Data provided by Marvel. © 2014 Marvel", clicking on the text opens the "details" link found in the URLs or "http://www.marvel.com" if no URLs are present.
+
+Will adding the "Data provided by Marvel. © 2014 Marvel" with a link to http://www.marvel.com at the bottom of the Scringo screens bring the app into compliance or is there something else which is missing?
+
+Ahh - I didn't realize that the attribution notice was clickable.  Maybe there could be a "see details" link or something near where the like and comment buttons are?
+
+///

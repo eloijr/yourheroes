@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">YourHeroes</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_refresh" translatable="false">Refresh</string>
+    <string name="marvel_copyright">Data provided by Marvel. © 2014 Marvel</string>
+    <string name="title_activity_detail_person">Details</string>
+
+    <string name="searching">Searching&#8230;</string>
+    <string name="erro_searching_person">Error on searching of data. Try again.</string>
+
+    <string name="seedetails">Click here to see More Details</string>
+
+</resources>

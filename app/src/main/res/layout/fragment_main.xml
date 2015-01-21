@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_main"
+    tools:context=".PersonListFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:background="@drawable/background_white">
+
+        <EditText
+            android:id="@+id/edsearch"
+            android:layout_width="0dip"
+            android:layout_height="32dip"
+            android:layout_weight="1"
+            android:layout_marginRight="4dip"
+            android:textColor="@color/edit_text_search"
+            android:textSize="18dp"
+            android:singleLine="true"
+            android:imeActionLabel="Go"
+            android:imeOptions="actionSearch"
+            android:background="@drawable/background_textview"
+            />
+
+        <ImageView
+            android:id="@+id/btsearch"
+            android:layout_width="wrap_content"
+            android:layout_height="32dip"
+            android:scaleType="fitCenter"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_search"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listperson"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        style="@style/PersonListStyle"
+        android:background="@drawable/background_white"/>
+
+    <include layout="@layout/footer" android:id="@+id/footer_marvel"/>
+</LinearLayout>

@@ -1,0 +1,21 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.YourHeroes</item>
+    </style>
+
+    <style name="YourHeroesTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.YourHeroes.NoTitle</item>
+    </style>
+
+    <style name="ActionBar.Solid.YourHeroes" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/actionbar</item>
+    </style>
+
+    <style name="ActionBar.Solid.YourHeroes.NoTitle" parent="@style/ActionBar.Solid.YourHeroes">
+        <item name="android:displayOptions">useLogo|showHome</item>
+        <item name="android:logo">@drawable/ic_logo</item>
+    </style>
+
+</resources>
