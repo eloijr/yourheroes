@@ -142,6 +142,7 @@ public class YourHeroesProvider extends ContentProvider {
         final SQLiteDatabase db = fDbHelper.getWritableDatabase();
         final int match = fUriMatcher.match(uri);
         int rowsDeleted;
+
         switch (match) {
             case PERSON:
                 rowsDeleted = db.delete(YourHeroesContract.PersonEntry.TABLE_NAME, selection,
@@ -161,6 +162,7 @@ public class YourHeroesProvider extends ContentProvider {
         final SQLiteDatabase db = fDbHelper.getWritableDatabase();
         final int match = fUriMatcher.match(uri);
         int rowsUpdated;
+
         switch (match) {
             case PERSON:
                 rowsUpdated = db.update(YourHeroesContract.PersonEntry.TABLE_NAME, values,

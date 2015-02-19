@@ -29,6 +29,7 @@ public class YourHeroesDbHelper extends SQLiteOpenHelper {
                 PersonEntry.COLUMN_URLDETAIL + " TEXT, " +
                 PersonEntry.COLUMN_LANDSCAPESMALL + " TEXT, " +
                 PersonEntry.COLUMN_STANDARDXLARGE + " TEXT );";
+
         db.execSQL(SQL_CREATE_PERSON);
     }
 
