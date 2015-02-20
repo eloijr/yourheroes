@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.runze.yourheroes.db.Person;
 import com.runze.yourheroes.net.ConnectTask;
-import com.runze.yourheroes.net.FetchHeroesTask;
 import com.runze.yourheroes.net.PersonClient;
 import com.runze.yourheroes.utilities.Action;
 import com.runze.yourheroes.utilities.CallBackItemSelection;

@@ -25,6 +25,12 @@
             android:name=".DetailPersonActivity"
             android:label="@string/title_activity_detail_person" >
         </activity>
+        
+        <provider
+            android:authorities="com.runze.yourheroes.app"
+            android:name=".db.YourHeroesProvider"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
