@@ -1,4 +1,4 @@
-package com.runze.yourheroes.utilities;
+package com.runze.yourheroes;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.runze.yourheroes.PersonListFragment;
-import com.runze.yourheroes.R;
-import com.runze.yourheroes.net.ImageLoader;
+import com.runze.yourheroes.utilities.ImageLoader;
 
 /**
  * Created by Eloi Jr on 22/02/2015.

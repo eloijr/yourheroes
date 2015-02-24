@@ -1,4 +1,4 @@
-package com.runze.yourheroes.net;
+package com.runze.yourheroes.utilities;
 
 import android.app.Activity;
 import android.content.Context;

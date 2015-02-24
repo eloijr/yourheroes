@@ -32,9 +32,6 @@ public class YourHeroesService extends IntentService {
 
     private final String LOG_TAG = YourHeroesService.class.getSimpleName();
 
-    private final String PUBLIC_KEY = "199a5380e83d0c5ab97677669503a6e8";
-    private final String PRIVATE_KEY = "429ace9a4246567523c98cc1f8d0d365f0444d5f";
-
     public static final String SEARCH_PARAM = "param";
 
     public YourHeroesService() {
@@ -54,8 +51,8 @@ public class YourHeroesService extends IntentService {
         String characterJsonStr = null;
 
         String ts = Long.toString(System.currentTimeMillis() / 1000);
-        String apikey = PUBLIC_KEY;
-        String hash = Tools.md5(ts + PRIVATE_KEY + PUBLIC_KEY);
+        String apikey = Tools.PUBLIC_KEY;
+        String hash = Tools.md5(ts + Tools.PRIVATE_KEY + Tools.PUBLIC_KEY);
         String order = "name"; // name, modified, -name, -modified (- is descending order)
 
         try {

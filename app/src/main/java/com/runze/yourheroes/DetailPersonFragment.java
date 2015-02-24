@@ -12,8 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.runze.yourheroes.db.Person;
-import com.runze.yourheroes.net.ImageLoader;
-import com.runze.yourheroes.net.PersonClient;
+import com.runze.yourheroes.utilities.ImageLoader;
+import com.runze.yourheroes.utilities.Tools;
 
 /**
  * Created by Eloi Jr on 09/01/2015.
@@ -68,7 +68,7 @@ public class DetailPersonFragment extends Fragment implements View.OnClickListen
         if (v.getId() == R.id.seedetails) {
             Intent intent;
             if ((person.getURLDetail() == null) || (person.getURLDetail().equals("")))
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(PersonClient.URL_MARVEL));
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Tools.URL_MARVEL));
             else
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(person.getURLDetail())); //+ Tools.genKeyUser()));
             startActivity(intent);

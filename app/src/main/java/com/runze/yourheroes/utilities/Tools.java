@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.widget.TextView;
 
 import com.runze.yourheroes.R;
-import com.runze.yourheroes.net.PersonClient;
-import com.runze.yourheroes.utilities.Strings;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -17,6 +15,15 @@ import java.security.NoSuchAlgorithmException;
  * Created by Eloi Jr on 24/12/2014.
  */
 public class Tools {
+
+    public static final String URL_MARVEL = "http://www.marvel.com";
+
+    public static final String PUBLIC_KEY = "199a5380e83d0c5ab97677669503a6e8";
+    public static final String PRIVATE_KEY = "429ace9a4246567523c98cc1f8d0d365f0444d5f";
+
+    public static final String TIMESTAMP = "ts";
+    public static final String API_KEY = "apikey";
+    public static final String HASH = "hash";
 
     public static Dialog dialogSpinner(Context context, String msg) {
         Dialog dialog = new Dialog(context, R.style.DialogSpinner);
@@ -46,9 +53,9 @@ public class Tools {
 
     public static String genKeyUser() {
         String ts = Long.toString(System.currentTimeMillis() / 1000);
-        String hash = Tools.md5(ts + PersonClient.PRIVATE_KEY + PersonClient.PUBLIC_KEY);
-        return "?" + PersonClient.TIMESTAMP + "=" + ts + "&" + PersonClient.API_KEY + "=" + PersonClient.PUBLIC_KEY + "&" +
-                PersonClient.HASH + "=" + hash;
+        String hash = Tools.md5(ts + PRIVATE_KEY + PUBLIC_KEY);
+        return "?" + TIMESTAMP + "=" + ts + "&" + API_KEY + "=" + PUBLIC_KEY + "&" +
+                HASH + "=" + hash;
     }
 
     public static String md5(String s) {

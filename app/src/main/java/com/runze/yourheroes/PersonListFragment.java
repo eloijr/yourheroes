@@ -26,7 +26,6 @@ import com.runze.yourheroes.db.Person;
 import com.runze.yourheroes.db.YourHeroesContract;
 import com.runze.yourheroes.service.YourHeroesService;
 import com.runze.yourheroes.utilities.CallBackItemSelection;
-import com.runze.yourheroes.utilities.PersonCursorAdapter;
 
 import java.lang.*;
 
