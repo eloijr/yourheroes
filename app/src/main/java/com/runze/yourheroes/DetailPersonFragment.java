@@ -1,11 +1,9 @@
 package com.runze.yourheroes;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.runze.yourheroes.db.Person;
-import com.runze.yourheroes.net.ConnectTask;
 import com.runze.yourheroes.net.ImageLoader;
 import com.runze.yourheroes.net.PersonClient;
-import com.runze.yourheroes.utilities.Action;
-import com.runze.yourheroes.utilities.Tools;
 
 /**
  * Created by Eloi Jr on 09/01/2015.
