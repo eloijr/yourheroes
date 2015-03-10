@@ -9,9 +9,12 @@ import android.provider.BaseColumns;
  */
 public class YourHeroesContract {
 
-    public static final String CONTENT_AUTHORITY = "com.runze.yourheroes.app";
+    public static final String CONTENT_AUTHORITY = "com.runze.yourheroes";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_PERSON = "person";
+
+    public static final String PATH_PERSON_MARVEL_ID = "marvelid";
+    public static final String PATH_PERSON_STARTNAME = "startname";
 
     public static final class PersonEntry implements BaseColumns {
 
@@ -22,7 +25,7 @@ public class YourHeroesContract {
 
         public static final String TABLE_NAME = "person";
 
-        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_MARVEL_ID = "mid";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_URLDETAIL = "URLDetail";
@@ -33,12 +36,20 @@ public class YourHeroesContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
+        public static Uri buildPersonMarvelID(String marvelID) {
+            return CONTENT_URI.buildUpon().appendPath(PATH_PERSON_MARVEL_ID).appendPath(marvelID).build();
+        }
+
         public static Uri buildPersonStartName(String startName) {
-            return CONTENT_URI.buildUpon().appendPath(startName).build();
+            return CONTENT_URI.buildUpon().appendPath(PATH_PERSON_STARTNAME).appendPath(startName).build();
+        }
+
+        public static String getMarvelIDFromUri(Uri uri) {
+            return uri.getPathSegments().get(2);
         }
 
         public static String getStartNameFromUri(Uri uri) {
-            return uri.getPathSegments().get(1);
+            return uri.getPathSegments().get(2);
         }
 
     }

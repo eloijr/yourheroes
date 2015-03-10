@@ -39,8 +39,8 @@ public class PersonCursorAdapter extends CursorAdapter {
 
         ViewHolderPerson viewHolderPerson = (ViewHolderPerson) view.getTag();
 
-        String name = cursor.getString(PersonListFragment.COL_COLUMN_NAME);
-        String landscapeImage = cursor.getString(PersonListFragment.COL_COLUMN_LANDSCAPESMALL);
+        String name = cursor.getString(PersonListFragment.COL_PERSON_NAME);
+        String landscapeImage = cursor.getString(PersonListFragment.COL_PERSON_LANDSCAPESMALL);
 
         viewHolderPerson.name.setText(name);
         viewHolderPerson.image.setTag(landscapeImage);

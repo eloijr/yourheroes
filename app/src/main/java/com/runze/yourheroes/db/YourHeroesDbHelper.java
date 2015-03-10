@@ -23,7 +23,8 @@ public class YourHeroesDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         final String SQL_CREATE_PERSON = "CREATE TABLE " + PersonEntry.TABLE_NAME + "(" +
-                PersonEntry.COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                PersonEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                PersonEntry.COLUMN_MARVEL_ID + " INTEGER NOT NULL, " +
                 PersonEntry.COLUMN_NAME + " TEXT, " +
                 PersonEntry.COLUMN_DESCRIPTION + " TEXT, " +
                 PersonEntry.COLUMN_URLDETAIL + " TEXT, " +

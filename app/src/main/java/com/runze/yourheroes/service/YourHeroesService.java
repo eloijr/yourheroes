@@ -43,6 +43,7 @@ public class YourHeroesService extends IntentService {
         boolean isSearchById = false;
 
         String param = intent.getStringExtra(SEARCH_PARAM);
+        Log.d(LOG_TAG, "Param:" + param);
         isSearchById = TextUtils.isDigitsOnly(param);
 
         HttpURLConnection urlConnection = null;
@@ -143,7 +144,7 @@ public class YourHeroesService extends IntentService {
             Vector<ContentValues> vcPerson = new Vector<ContentValues>(persons.size());
             for (Person p : persons) {
                 ContentValues personValues = new ContentValues();
-                personValues.put(YourHeroesContract.PersonEntry.COLUMN_ID, p.getId());
+                personValues.put(YourHeroesContract.PersonEntry.COLUMN_MARVEL_ID, p.getId());
                 personValues.put(YourHeroesContract.PersonEntry.COLUMN_NAME, p.getName());
                 personValues.put(YourHeroesContract.PersonEntry.COLUMN_DESCRIPTION, p.getDescription());
                 personValues.put(YourHeroesContract.PersonEntry.COLUMN_URLDETAIL, p.getURLDetail());
@@ -154,7 +155,15 @@ public class YourHeroesService extends IntentService {
             if (vcPerson.size() > 0) {
                 ContentValues[] arPerson = new ContentValues[vcPerson.size()];
                 vcPerson.toArray(arPerson);
-                this.getContentResolver().bulkInsert(YourHeroesContract.PersonEntry.CONTENT_URI, arPerson);
+                try {
+                    // delete all records before super insert!
+                    this.getContentResolver().delete(YourHeroesContract.PersonEntry.CONTENT_URI, null, null);
+
+                    this.getContentResolver().bulkInsert(YourHeroesContract.PersonEntry.CONTENT_URI, arPerson);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }
@@ -169,18 +178,53 @@ public class YourHeroesService extends IntentService {
         ArrayList<Person> chcs = new ArrayList<Person>();
 
         for(int i = 0; i < persons.length(); i++) {
-            JSONObject jsonName = persons.getJSONObject(i);
-            int id = jsonName.getInt("id");
-            String name = jsonName.getString("name");
-            String description = jsonName.getString("description");
-            JSONObject thumbnail = jsonName.getJSONObject("thumbnail");
-            String landscapeSmallImageUrl = thumbnail.getString("path") + "/" + ImageFormat.LANDSCAPE_SMALL+"."+thumbnail.getString("extension");
-            String standardXLargeImageUrl = thumbnail.getString("path") + "/" + ImageFormat.STANDARD_FANTASTIC+"."+thumbnail.getString("extension");
+            JSONObject jsonPerson = persons.getJSONObject(i);
+            int id = jsonPerson.getInt("id");
+            String name = jsonPerson.getString("name");
+            String description = jsonPerson.getString("description");
+
+            String URLDetail = "";
+            String URLWiki = "";
+            String URLComiclink = "";
+            JSONArray urlsArray = jsonPerson.getJSONArray("urls"); //detail, wiki, comiclink
+            for(int u = 0; u < urlsArray.length(); u++) {
+                JSONObject jsonUrl = urlsArray.getJSONObject(u);
+                String type = jsonUrl.getString("type");
+                String url = jsonUrl.getString("url");
+                if (type.equals("detail")) {
+                    URLDetail = url;
+                }
+                if (type.equals("wiki")) {
+                    URLWiki = url;
+                }
+                if (type.equals("comiclink")) {
+                    URLComiclink = url;
+                }
+            }
+            // I decide URLDetail is priority. I like the info there :)
+            if (URLDetail.equals("")) {
+                if (!URLWiki.equals("")) // if detail is null use the wiki url
+                    URLDetail = URLWiki;
+                else // otherwise, use the comiclink url
+                    URLDetail = URLComiclink;
+            }
+
+            String landscapeSmallImageUrl;
+            String standardXLargeImageUrl;
+            if (!jsonPerson.isNull("thumbnail")) {
+                JSONObject thumbnail = jsonPerson.getJSONObject("thumbnail");
+                landscapeSmallImageUrl = thumbnail.getString("path") + "/" + ImageFormat.LANDSCAPE_SMALL + "." + thumbnail.getString("extension");
+                standardXLargeImageUrl = thumbnail.getString("path") + "/" + ImageFormat.STANDARD_FANTASTIC + "." + thumbnail.getString("extension");
+            } else {
+                landscapeSmallImageUrl = "";
+                standardXLargeImageUrl = "";
+            }
 
             Person person = new Person();
             person.setId(id);
             person.setName(name);
             person.setDescription(description);
+            person.setURLDetail(URLDetail);
             person.setLandscapeSmallImageUrl(landscapeSmallImageUrl);
             person.setStandardXLargeImageUrl(standardXLargeImageUrl);
 

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,6 +36,8 @@ import java.lang.*;
 public class PersonListFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener,
         TextView.OnEditorActionListener, LoaderCallbacks<Cursor> {
 
+    private final String LOG_TAG = PersonListFragment.class.getSimpleName();
+
     private static final String PERSONS = "persons";
 
     private static final int PERSON_LOADER = 0;
@@ -46,19 +49,21 @@ public class PersonListFragment extends Fragment implements View.OnClickListener
 
     // Columns showed by the loader
     private static final String[] PERSON_COLUMNS = {
-            YourHeroesContract.PersonEntry.COLUMN_ID,
+            YourHeroesContract.PersonEntry._ID,
+            YourHeroesContract.PersonEntry.COLUMN_MARVEL_ID,
             YourHeroesContract.PersonEntry.COLUMN_NAME,
             YourHeroesContract.PersonEntry.COLUMN_DESCRIPTION,
             YourHeroesContract.PersonEntry.COLUMN_URLDETAIL,
             YourHeroesContract.PersonEntry.COLUMN_LANDSCAPESMALL,
             YourHeroesContract.PersonEntry.COLUMN_STANDARDXLARGE
     };
-    public static final int COL_COLUMN_ID = 0;
-    public static final int COL_COLUMN_NAME = 1;
-    public static final int COL_COLUMN_DESCRIPTION = 2;
-    public static final int COL_COLUMN_URLDETAIL = 3;
-    public static final int COL_COLUMN_LANDSCAPESMALL = 4;
-    public static final int COL_COLUMN_STANDARDXLARGE = 5;
+    public static final int COL_PERSON_ID = 0;
+    public static final int COL_PERSON__MARVEL_ID = 1;
+    public static final int COL_PERSON_NAME = 2;
+    public static final int COL_PERSON_DESCRIPTION = 3;
+    public static final int COL_PERSON_URLDETAIL = 4;
+    public static final int COL_PERSON_LANDSCAPESMALL = 5;
+    public static final int COL_PERSON_STANDARDXLARGE = 6;
 
     public PersonListFragment() {
     }
@@ -97,6 +102,7 @@ public class PersonListFragment extends Fragment implements View.OnClickListener
         btSearch = (ImageView) rootView.findViewById(R.id.btsearch);
         btSearch.setOnClickListener(this);
         listPerson = (ListView) rootView.findViewById(R.id.listperson);
+        listPerson.setAdapter(personCursorAdapter);
         listPerson.setOnItemClickListener(this);
 
         return rootView;
@@ -121,17 +127,31 @@ public class PersonListFragment extends Fragment implements View.OnClickListener
         Intent intent = new Intent(getActivity(), YourHeroesService.class);
         intent.putExtra(YourHeroesService.SEARCH_PARAM, search);
         getActivity().startService(intent);
+        getLoaderManager().restartLoader(PERSON_LOADER, null, this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Person person = (Person) parent.getAdapter().getItem(position);
-        ((CallBackItemSelection) getActivity()).onItemSelected(person);
+        Cursor cursor = personCursorAdapter.getCursor();
+        if (cursor != null) {
+
+            Person person = new Person();
+            person.setId(cursor.getInt(COL_PERSON_ID));
+            person.setMarvelId(cursor.getInt(COL_PERSON__MARVEL_ID));
+            person.setName(cursor.getString(COL_PERSON_NAME));
+            person.setDescription(cursor.getString(COL_PERSON_DESCRIPTION));
+            person.setURLDetail(cursor.getString(COL_PERSON_URLDETAIL));
+            person.setLandscapeSmallImageUrl(cursor.getString(COL_PERSON_LANDSCAPESMALL));
+            person.setStandardXLargeImageUrl(cursor.getString(COL_PERSON_STANDARDXLARGE));
+
+            ((CallBackItemSelection) getActivity()).onItemSelected(person);
+        }
     }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         boolean handled = false;
+
         if (v == edSearch) {
             seachPerson(edSearch.getText().toString());
 
@@ -155,7 +175,14 @@ public class PersonListFragment extends Fragment implements View.OnClickListener
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        Uri uriSearch = YourHeroesContract.PersonEntry.buildPersonStartName(edSearch.getText().toString());
+        Uri uriSearch;
+        String pStartName = edSearch.getText().toString();
+
+        if (pStartName.equals(""))
+            pStartName = "A";
+
+        uriSearch = YourHeroesContract.PersonEntry.buildPersonStartName(pStartName);
+        Log.d(LOG_TAG, "uriSearch: "+uriSearch.toString());
 
         return new CursorLoader(
                 getActivity(),

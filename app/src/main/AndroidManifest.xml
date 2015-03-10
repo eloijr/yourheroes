@@ -27,9 +27,10 @@
         </activity>
         
         <provider
-            android:authorities="com.runze.yourheroes.app"
+            android:authorities="com.runze.yourheroes"
             android:name=".db.YourHeroesProvider"
             android:exported="false"/>
+        <service android:name=".service.YourHeroesService"/>
 
     </application>
 

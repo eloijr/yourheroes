@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Person implements Serializable {
 
     private int id;
+    private int marvelId;
     private String name;
     private String description;
     private String URLDetail;
@@ -20,6 +21,14 @@ public class Person implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getMarvelId() {
+        return marvelId;
+    }
+
+    public void setMarvelId(int marvelId) {
+        this.marvelId = marvelId;
     }
 
     public String getName() {

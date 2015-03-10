@@ -6,19 +6,21 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * Created by Eloi Jr on 18/02/2015.
  */
 public class YourHeroesProvider extends ContentProvider {
 
+    private final String LOG_TAG = YourHeroesProvider.class.getSimpleName();
+
     private static final UriMatcher fUriMatcher = buildUriMatcher();
     private YourHeroesDbHelper fDbHelper;
 
     private static final int PERSON = 100;
-    private static final int PERSON_ID = 101;
+    private static final int PERSON_MARVEL_ID = 101;
     private static final int PERSON_STARTNAME = 102;
 
     @Override
@@ -32,8 +34,9 @@ public class YourHeroesProvider extends ContentProvider {
         final String authority = YourHeroesContract.CONTENT_AUTHORITY;
 
         // Each type of uri with you corresponding code!
-        matcher.addURI(authority, YourHeroesContract.PATH_PERSON, PERSON_ID);
-        matcher.addURI(authority, YourHeroesContract.PATH_PERSON, PERSON_STARTNAME);
+        matcher.addURI(authority, YourHeroesContract.PATH_PERSON, PERSON);
+        matcher.addURI(authority, YourHeroesContract.PATH_PERSON+"/"+YourHeroesContract.PATH_PERSON_MARVEL_ID+"/#", PERSON_MARVEL_ID);
+        matcher.addURI(authority, YourHeroesContract.PATH_PERSON+"/"+YourHeroesContract.PATH_PERSON_STARTNAME+"/*", PERSON_STARTNAME);
 
         return matcher;
     }
@@ -43,7 +46,9 @@ public class YourHeroesProvider extends ContentProvider {
         // Verifying whats kind o uri we have...
         final int match = fUriMatcher.match(uri);
         switch (match) {
-            case PERSON_ID:
+            case PERSON:
+                return YourHeroesContract.PersonEntry.CONTENT_TYPE;
+            case PERSON_MARVEL_ID:
                 return YourHeroesContract.PersonEntry.CONTENT_ITEM_TYPE;
             case PERSON_STARTNAME:
                 return YourHeroesContract.PersonEntry.CONTENT_TYPE;
@@ -56,25 +61,56 @@ public class YourHeroesProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor rCursor;
 
+        Log.d(LOG_TAG, uri.toString());
+
         switch (fUriMatcher.match(uri)) {
-            case PERSON_ID:
+            case PERSON:
+                Log.d(LOG_TAG, "PERSON");
                 rCursor = fDbHelper.getReadableDatabase().query(
                         YourHeroesContract.PersonEntry.TABLE_NAME,
                         projection,
-                        YourHeroesContract.PersonEntry._ID + " = " + ContentUris.parseId(uri),
                         null,
                         null,
                         null,
-                        sortOrder
+                        null,
+                        null
+                );
+                break;
+
+            case PERSON_MARVEL_ID:
+                Log.d(LOG_TAG, "PERSON_MARVEL_ID");
+                String marvelID = YourHeroesContract.PersonEntry.getMarvelIDFromUri(uri);
+
+                selection = YourHeroesContract.PersonEntry.TABLE_NAME+"."+
+                        YourHeroesContract.PersonEntry.COLUMN_MARVEL_ID + " = ?";
+                selectionArgs = new String[]{marvelID};
+
+                rCursor = fDbHelper.getReadableDatabase().query(
+                        YourHeroesContract.PersonEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        null
                 );
                 break;
 
             case PERSON_STARTNAME:
+                Log.d(LOG_TAG, "PERSON_STARTNAME");
+                Log.d(LOG_TAG, uri+" - Query by getStartName: " + YourHeroesContract.PersonEntry.getStartNameFromUri(uri) );
+                String startName = YourHeroesContract.PersonEntry.getStartNameFromUri(uri);
+
+                selection = YourHeroesContract.PersonEntry.TABLE_NAME+"."+
+                        YourHeroesContract.PersonEntry.COLUMN_NAME + " like ?";
+                selectionArgs = new String[]{startName+"%"};
+                sortOrder = YourHeroesContract.PersonEntry.COLUMN_NAME;
+
                 rCursor = fDbHelper.getReadableDatabase().query(
                         YourHeroesContract.PersonEntry.TABLE_NAME,
                         projection,
-                        YourHeroesContract.PersonEntry.COLUMN_NAME + " starting with '" + ContentUris.parseId(uri) + "'",
-                        null,
+                        selection,
+                        selectionArgs,
                         null,
                         null,
                         sortOrder
@@ -93,6 +129,8 @@ public class YourHeroesProvider extends ContentProvider {
         final SQLiteDatabase db = fDbHelper.getWritableDatabase();
         final int match = fUriMatcher.match(uri);
         Uri returnUri;
+
+        Log.d(LOG_TAG, uri.toString()+" - id: "+fUriMatcher.match(uri));
 
         switch (match) {
             case PERSON: {
@@ -129,6 +167,7 @@ public class YourHeroesProvider extends ContentProvider {
                 } finally {
                     db.endTransaction();
                 }
+                Log.d(LOG_TAG, "Inseriu "+returnCount+" recnos e notifying loader...");
                 getContext().getContentResolver().notifyChange(uri, null);
                 return returnCount;
 
@@ -152,8 +191,10 @@ public class YourHeroesProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-        if (selection == null || rowsDeleted != 0)
+        if (selection == null || rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
+            Log.d(LOG_TAG, "deletou tudo...");
+        }
         return rowsDeleted;
     }
 
