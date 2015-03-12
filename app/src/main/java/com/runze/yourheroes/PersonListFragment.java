@@ -1,7 +1,10 @@
 package com.runze.yourheroes;
 
+import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +30,7 @@ import com.runze.yourheroes.db.Person;
 import com.runze.yourheroes.db.YourHeroesContract;
 import com.runze.yourheroes.service.YourHeroesService;
 import com.runze.yourheroes.utilities.CallBackItemSelection;
+import com.runze.yourheroes.utilities.Tools;
 
 import java.lang.*;
 
@@ -46,6 +50,9 @@ public class PersonListFragment extends Fragment implements View.OnClickListener
     private TextView edSearch;
     private ImageView btSearch;
     private ListView listPerson;
+
+    private ServiceResponseReceive serviceResponseReceive;
+    private Dialog dialog;
 
     // Columns showed by the loader
     private static final String[] PERSON_COLUMNS = {
@@ -74,6 +81,7 @@ public class PersonListFragment extends Fragment implements View.OnClickListener
         // Add this line in order for this fragment to handle menu events.
         setHasOptionsMenu(true);
         setRetainInstance(true);
+
     }
 
     @Override
@@ -128,6 +136,9 @@ public class PersonListFragment extends Fragment implements View.OnClickListener
         intent.putExtra(YourHeroesService.SEARCH_PARAM, search);
         getActivity().startService(intent);
         getLoaderManager().restartLoader(PERSON_LOADER, null, this);
+
+        dialog = Tools.dialogSpinner(getActivity(), getActivity().getString(R.string.searching));
+        dialog.show();
     }
 
     @Override
@@ -165,8 +176,21 @@ public class PersonListFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(serviceResponseReceive);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+
+        // registering the broadcast to receive signal of the service
+        IntentFilter filter = new IntentFilter(ServiceResponseReceive.ACTION_SERVICE);
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        serviceResponseReceive = new ServiceResponseReceive();
+        getActivity().registerReceiver(serviceResponseReceive, filter);
+
         if (!edSearch.getText().toString().equals("")) {
             getLoaderManager().restartLoader(PERSON_LOADER, null, this);
         }
@@ -203,4 +227,16 @@ public class PersonListFragment extends Fragment implements View.OnClickListener
     public void onLoaderReset(Loader<Cursor> loader) {
         personCursorAdapter.swapCursor(null);
     }
+
+    public class ServiceResponseReceive extends BroadcastReceiver {
+
+        public static final String ACTION_SERVICE = "com.runze.yourheroes.service.FINISHED";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (dialog != null)
+                dialog.dismiss();
+        }
+    }
+
 }

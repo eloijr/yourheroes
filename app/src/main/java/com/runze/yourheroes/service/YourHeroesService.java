@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.runze.yourheroes.PersonListFragment;
 import com.runze.yourheroes.db.Person;
 import com.runze.yourheroes.db.YourHeroesContract;
 import com.runze.yourheroes.utilities.ImageFormat;
@@ -166,6 +167,13 @@ public class YourHeroesService extends IntentService {
 
             }
         }
+
+        // Sending message that the task was finished
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(PersonListFragment.ServiceResponseReceive.ACTION_SERVICE);
+        broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        sendBroadcast(broadcastIntent);
+
     }
 
     public ArrayList<Person> getPersonDataFromJson(String personJsonStr)
