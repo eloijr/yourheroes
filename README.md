@@ -9,4 +9,4 @@ For run this project on emulator or Android device you need to get an API key fr
 
 Have funny with the MARVEL API! There you have access of data from the 70-plus years of the Marvel age of comics! You can have data of characters, comics, stories, series, events and creators of comics!
 
-For download the APK from this repository: https://github.com/eloijr/yourheroes/blob/master/app/yourheroes.apk
+For download the APK from this repository: https://github.com/eloijr/yourheroes/raw/master/app/yourheroes.apk
