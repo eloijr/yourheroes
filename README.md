@@ -8,3 +8,5 @@ YourHeroes uses some importants aspects of Android Platform such as: design of i
 For run this project on emulator or Android device you need to get an API key from developer.marvel.com and put it on Tools class at PUBLIC_KEY and PRIVATE_KEY static members.
 
 Have funny with the MARVEL API! There you have access of data from the 70-plus years of the Marvel age of comics! You can have data of characters, comics, stories, series, events and creators of comics!
+
+For download the APK from this repository: https://github.com/eloijr/yourheroes/blob/master/app/yourheroes.apk
