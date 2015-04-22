@@ -1,7 +1,7 @@
 # yourheroes
 Android app that uses the Marvel API to get data of characters from Marvel Restful services
 
-YourHeroes is a little Android project that was created as a final project for Udacity course “Developing Android Apps” promoted by Google using the Marvel API.
+YourHeroes is a little Android project using the Marvel API that was created as a final project for Udacity course “Developing Android Apps” promoted by Google.
 
 YouHeroes uses some importants aspects of Android Platform such as: design of interfaces in landscape and portrait modes for smartphones and tablets, SQLite persistence, Loaders, Content Providers, IntentService, Restful services, JSON parsing e etc. 
 
