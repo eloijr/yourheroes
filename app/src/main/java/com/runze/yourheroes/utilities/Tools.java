@@ -18,8 +18,8 @@ public class Tools {
 
     public static final String URL_MARVEL = "http://www.marvel.com";
 
-    public static final String PUBLIC_KEY = "199a5380e83d0c5ab97677669503a6e8";
-    public static final String PRIVATE_KEY = "429ace9a4246567523c98cc1f8d0d365f0444d5f";
+    public static final String PUBLIC_KEY = "getYourPUBLIC_KEYat-developer.marvel.com";
+    public static final String PRIVATE_KEY = "getYourPRIVATE_KEYat-developer.marvel.com";
 
     public static final String TIMESTAMP = "ts";
     public static final String API_KEY = "apikey";
